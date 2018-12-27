@@ -1,20 +1,34 @@
-%define		kdeappsver	17.08.2
-%define		qtver		5.3.2
+%define		kdeappsver	18.12.0
+%define		qtver		5.9.0
 %define		kaname		kmailtransport
 Summary:	KMail Transport
 Name:		ka5-%{kaname}
-Version:	17.08.2
+Version:	18.12.0
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/applications/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	841483d2ea69d7164c25547e9142ed95
+# Source0-md5:	8ea1ccc68a92154dc006a748ffd3ab14
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
+BuildRequires:	Qt5Gui-devel >= 5.11.1
+BuildRequires:	Qt5Test-devel
 BuildRequires:	cmake >= 2.8.12
+BuildRequires:	gettext-devel
+BuildRequires:	ka5-akonadi-devel >= %{kdeappsver}
 BuildRequires:	ka5-akonadi-mime-devel >= %{kdeappsver}
 BuildRequires:	ka5-kmime-devel >= %{kdeappsver}
-BuildRequires:	kf5-extra-cmake-modules >= 1.4.0
+BuildRequires:	ka5-ksmtp-devel >= %{kdeappsver}
+BuildRequires:	ka5-ksmtp-devel >= %{kdeappsver}
+BuildRequires:	ka5-libkgapi-devel >= %{kdeappsver}
+BuildRequires:	kf5-extra-cmake-modules >= 5.53.0
+BuildRequires:	kf5-kcmutils-devel >= 5.51.0
+BuildRequires:	kf5-kconfigwidgets-devel >= 5.51.0
+BuildRequires:	kf5-kdbusaddons-devel
+BuildRequires:	kf5-ki18n-devel >= 5.51.0
+BuildRequires:	kf5-kio-devel >= 5.51.0
+BuildRequires:	kf5-ktextwidgets-devel >= 5.51.0
+BuildRequires:	kf5-kwallet-devel >= 5.51.0
 BuildRequires:	qt5-build >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	shared-mime-info
@@ -23,11 +37,11 @@ BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-KMail Transport.
+Mail transport service.
 
 %package devel
 Summary:	Header files for %{kaname} development
-Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kpname}
+Summary(pl.UTF-8):	Pliki nagłówkowe dla programistów używających %{kaname}
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -70,14 +84,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libKF5MailTransportAkonadi.so.5
 %attr(755,root,root) %{_libdir}/libKF5MailTransportAkonadi.so.*.*.*
 %{_libdir}/qt5/plugins/kcm_mailtransport.so
-%{_libdir}/qt5/plugins/kf5/kio/smtp.so
+#%%{_libdir}/qt5/plugins/kf5/kio/smtp.so
 %dir %{_libdir}/qt5/plugins/mailtransport
 %{_libdir}/qt5/plugins/mailtransport/mailtransport_akonadiplugin.so
 %{_libdir}/qt5/plugins/mailtransport/mailtransport_smtpplugin.so
 %{_datadir}/config.kcfg/mailtransport.kcfg
 %{_datadir}/kservices5/kcm_mailtransport.desktop
-%{_datadir}/kservices5/smtp.protocol
-%{_datadir}/kservices5/smtps.protocol
+#%%{_datadir}/kservices5/smtp.protocol
+#%%{_datadir}/kservices5/smtps.protocol
 
 %files devel
 %defattr(644,root,root,755)

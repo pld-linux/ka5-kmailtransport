@@ -1,14 +1,15 @@
-%define		kdeappsver	18.12.1
+%define		kdeappsver	19.04.1
+%define		kframever	5.56.0
 %define		qtver		5.9.0
 %define		kaname		kmailtransport
 Summary:	KMail Transport
 Name:		ka5-%{kaname}
-Version:	18.12.1
+Version:	19.04.1
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/applications/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	130d7c7e54074ccbc62839569e75110b
+# Source0-md5:	4109c43a72e8665e34c2724f53fcc633
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= 5.11.1
@@ -21,14 +22,15 @@ BuildRequires:	ka5-kmime-devel >= %{kdeappsver}
 BuildRequires:	ka5-ksmtp-devel >= %{kdeappsver}
 BuildRequires:	ka5-ksmtp-devel >= %{kdeappsver}
 BuildRequires:	ka5-libkgapi-devel >= %{kdeappsver}
-BuildRequires:	kf5-extra-cmake-modules >= 5.53.0
-BuildRequires:	kf5-kcmutils-devel >= 5.51.0
-BuildRequires:	kf5-kconfigwidgets-devel >= 5.51.0
-BuildRequires:	kf5-kdbusaddons-devel
-BuildRequires:	kf5-ki18n-devel >= 5.51.0
-BuildRequires:	kf5-kio-devel >= 5.51.0
-BuildRequires:	kf5-ktextwidgets-devel >= 5.51.0
-BuildRequires:	kf5-kwallet-devel >= 5.51.0
+BuildRequires:	kf5-extra-cmake-modules >= %{kframever}
+BuildRequires:	kf5-kcmutils-devel >= %{kframever}
+BuildRequires:	kf5-kconfigwidgets-devel >= %{kframever}
+BuildRequires:	kf5-kdbusaddons-devel >= %{kframever}
+BuildRequires:	kf5-ki18n-devel >= %{kframever}
+BuildRequires:	kf5-kio-devel >= %{kframever}
+BuildRequires:	kf5-ktextwidgets-devel >= %{kframever}
+BuildRequires:	kf5-kwallet-devel >= %{kframever}
+BuildRequires:	ninja
 BuildRequires:	qt5-build >= %{qtver}
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	shared-mime-info
@@ -57,15 +59,15 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 %build
 install -d build
 cd build
-%cmake \
+%cmake -G Ninja \
+	-DHTML_INSTALL_DIR=%{_kdedocdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
 	..
-%{__make}
+%ninja_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} -C build install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C build
 
 %find_lang %{kaname} --all-name --with-kde
 

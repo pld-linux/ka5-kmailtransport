@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	21.12.3
+%define		kdeappsver	22.04.0
 %define		kframever	5.56.0
 %define		qtver		5.9.0
 %define		kaname		kmailtransport
 Summary:	KMail Transport
 Name:		ka5-%{kaname}
-Version:	21.12.3
+Version:	22.04.0
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	http://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	72679b35f460a466f47b2f1a6a658f62
+# Source0-md5:	d614975003f736e6a8c0076f7e75e867
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= 5.11.1
@@ -97,22 +97,18 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %{_libdir}/libKF5MailTransportAkonadi.so.5
 %attr(755,root,root) %{_libdir}/libKF5MailTransportAkonadi.so.*.*.*
 %{_libdir}/qt5/plugins/kcm_mailtransport.so
-%dir %{_libdir}/qt5/plugins/mailtransport
-%{_libdir}/qt5/plugins/mailtransport/mailtransport_akonadiplugin.so
-%{_libdir}/qt5/plugins/mailtransport/mailtransport_smtpplugin.so
 %{_datadir}/config.kcfg/mailtransport.kcfg
 %{_datadir}/kservices5/kcm_mailtransport.desktop
 %{_datadir}/qlogging-categories5/kmailtransport.categories
 %{_datadir}/qlogging-categories5/kmailtransport.renamecategories
+%dir %{_libdir}/qt5/plugins/kf5/mailtransport
+%attr(755,root,root) %{_libdir}/qt5/plugins/kf5/mailtransport/mailtransport_akonadiplugin.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/kf5/mailtransport/mailtransport_smtpplugin.so
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/KF5/MailTransport
 %{_includedir}/KF5/MailTransportAkonadi
-%{_includedir}/KF5/mailtransport
-%{_includedir}/KF5/mailtransport_version.h
-%{_includedir}/KF5/mailtransportakonadi
-%{_includedir}/KF5/mailtransportakonadi_version.h
 %{_libdir}/cmake/KF5MailTransport
 %{_libdir}/cmake/KF5MailTransportAkonadi
 %{_libdir}/libKF5MailTransport.so

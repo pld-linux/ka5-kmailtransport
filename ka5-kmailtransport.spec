@@ -1,18 +1,18 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	22.12.3
+%define		kdeappsver	23.04.0
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		kmailtransport
 Summary:	KMail Transport
 Name:		ka5-%{kaname}
-Version:	22.12.3
-Release:	2
+Version:	23.04.0
+Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	c0e63575353224176d8bf294f35ebaff
+# Source0-md5:	ee9a60cb64fab8599c2cbfedc5a06ac9
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= 5.11.1
@@ -92,26 +92,28 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{kaname}.lang
 %defattr(644,root,root,755)
-%ghost %{_libdir}/libKF5MailTransport.so.5
-%attr(755,root,root) %{_libdir}/libKF5MailTransport.so.*.*.*
-%ghost %{_libdir}/libKF5MailTransportAkonadi.so.5
-%attr(755,root,root) %{_libdir}/libKF5MailTransportAkonadi.so.*.*.*
-%{_libdir}/qt5/plugins/kcm_mailtransport.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/kcm_mailtransport.so
 %{_datadir}/config.kcfg/mailtransport.kcfg
 %{_datadir}/kservices5/kcm_mailtransport.desktop
 %{_datadir}/qlogging-categories5/kmailtransport.categories
 %{_datadir}/qlogging-categories5/kmailtransport.renamecategories
 %dir %{_libdir}/qt5/plugins/pim5/mailtransport
-%{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_akonadiplugin.so
-%{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_smtpplugin.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_akonadiplugin.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_smtpplugin.so
+%ghost %{_libdir}/libKPim5MailTransport.so.5
+%attr(755,root,root) %{_libdir}/libKPim5MailTransport.so.*.*.*
+%ghost %{_libdir}/libKPim5MailTransportAkonadi.so.5
+%attr(755,root,root) %{_libdir}/libKPim5MailTransportAkonadi.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/KF5/MailTransport
-%{_includedir}/KF5/MailTransportAkonadi
-%{_libdir}/cmake/KF5MailTransport
-%{_libdir}/cmake/KF5MailTransportAkonadi
-%{_libdir}/libKF5MailTransport.so
-%{_libdir}/libKF5MailTransportAkonadi.so
 %{_libdir}/qt5/mkspecs/modules/qt_KMailTransport.pri
 %{_libdir}/qt5/mkspecs/modules/qt_KMailTransportAkonadi.pri
+%{_includedir}/KPim5/MailTransport
+%{_includedir}/KPim5/MailTransportAkonadi
+%{_libdir}/cmake/KF5MailTransport
+%{_libdir}/cmake/KF5MailTransportAkonadi
+%{_libdir}/cmake/KPim5MailTransport
+%{_libdir}/cmake/KPim5MailTransportAkonadi
+%{_libdir}/libKPim5MailTransport.so
+%{_libdir}/libKPim5MailTransportAkonadi.so

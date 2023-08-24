@@ -1,24 +1,24 @@
 #
 # Conditional build:
 %bcond_with	tests		# build with tests
-%define		kdeappsver	23.04.3
+%define		kdeappsver	23.08.0
 %define		kframever	5.94.0
 %define		qtver		5.15.2
 %define		kaname		kmailtransport
 Summary:	KMail Transport
 Name:		ka5-%{kaname}
-Version:	23.04.3
+Version:	23.08.0
 Release:	1
 License:	GPL v2+/LGPL v2.1+
 Group:		X11/Libraries
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	e1656f6fb26bdd23397e9c8bd4fb590b
+# Source0-md5:	8998badfecb50df5be0fd8999b1e37d7
 URL:		http://www.kde.org/
 BuildRequires:	Qt5Core-devel >= %{qtver}
 BuildRequires:	Qt5Gui-devel >= 5.11.1
 BuildRequires:	Qt5Keychain-devel >= 0.12.0
 BuildRequires:	Qt5Test-devel
-BuildRequires:	cmake >= 2.8.12
+BuildRequires:	cmake >= 3.20
 BuildRequires:	gettext-devel
 BuildRequires:	ka5-akonadi-devel >= %{kdeappsver}
 BuildRequires:	ka5-akonadi-mime-devel >= %{kdeappsver}
@@ -64,17 +64,15 @@ Pliki nagłówkowe dla programistów używających %{kaname}.
 %setup -q -n %{kaname}-%{version}
 
 %build
-install -d build
-cd build
-%cmake -G Ninja \
+%cmake -B build \
+	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DHTML_INSTALL_DIR=%{_kdedocdir} \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-	..
-%ninja_build
+	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+%ninja_build -C build
 
 %if %{with tests}
-ctest
+ctest --test-dir build
 %endif
 
 
@@ -92,28 +90,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{kaname}.lang
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/qt5/plugins/kcm_mailtransport.so
 %{_datadir}/config.kcfg/mailtransport.kcfg
-%{_datadir}/kservices5/kcm_mailtransport.desktop
 %{_datadir}/qlogging-categories5/kmailtransport.categories
 %{_datadir}/qlogging-categories5/kmailtransport.renamecategories
 %dir %{_libdir}/qt5/plugins/pim5/mailtransport
-%attr(755,root,root) %{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_akonadiplugin.so
 %attr(755,root,root) %{_libdir}/qt5/plugins/pim5/mailtransport/mailtransport_smtpplugin.so
 %ghost %{_libdir}/libKPim5MailTransport.so.5
 %attr(755,root,root) %{_libdir}/libKPim5MailTransport.so.*.*.*
-%ghost %{_libdir}/libKPim5MailTransportAkonadi.so.5
-%attr(755,root,root) %{_libdir}/libKPim5MailTransportAkonadi.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/qt5/mkspecs/modules/qt_KMailTransport.pri
-%{_libdir}/qt5/mkspecs/modules/qt_KMailTransportAkonadi.pri
 %{_includedir}/KPim5/MailTransport
-%{_includedir}/KPim5/MailTransportAkonadi
 %{_libdir}/cmake/KF5MailTransport
-%{_libdir}/cmake/KF5MailTransportAkonadi
 %{_libdir}/cmake/KPim5MailTransport
-%{_libdir}/cmake/KPim5MailTransportAkonadi
 %{_libdir}/libKPim5MailTransport.so
-%{_libdir}/libKPim5MailTransportAkonadi.so
